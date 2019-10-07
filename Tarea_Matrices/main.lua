@@ -1,11 +1,13 @@
 -----------------------------------------------------------------------------------------
 --
 -- main.lua
--- 6/10/2019 Luis Fernando Choque Arana
+-- 6/10/2019 Luis Fernando Choque Arana Codigo=36267
 -- Tarea 1 de Infografia
 -- Trasformaciones de matrices 3X3
 -- Al final del documento se tiene las funciones con sus respectivos parametros
 -----------------------------------------------------------------------------------------
+
+
 
 function rotacion2D (x,y,angulo)
   result= {
