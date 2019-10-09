@@ -2,112 +2,39 @@
 --
 -- main.lua
 -- 6/10/2019 Luis Fernando Choque Arana Codigo=36267
--- Tarea 1 de Infografia
--- Trasformaciones de matrices 3X3
--- Al final del documento se tiene las funciones con sus respectivos parametros
+-- 
 -----------------------------------------------------------------------------------------
 
+--local earth = display.newImageRect("earth.png",50,50)
+--earth.x=100
+--earth.y=125
+
+--transition.to(earth, {x=200,y=225, time=1000})
+--transition.to(earth, {x=100,y=25, time=1000})
 
 
-function rotacion2D (x,y,angulo)
-  result= {
-    x*math.cos(angulo)-y*math.sin(angulo),x*math.sin(angulo)+y*math.cos(angulo)
-  }
-  return result
-end
+local origenx,origeny=512,300
 
-function rotacion3DX(mat,angulo)
-  result = {
-    (1*mat[1]),
-    (math.cos(angulo)*mat[2]+(-math.sin(angulo)*mat[3])),
-    (math.sin(angulo)*mat[2]+math.sin(angulo)*mat[3])
-  }
-  print (result[1] .." ," .. result[2] .. " ,".. result[3]  )
-end
+local contorno=display.newCircle( origenx, origeny, 200 )
+contorno:setFillColor( 0.2)
+contorno.strokeWidth = 10
+contorno:setStrokeColor( 2, 0, 0 )
 
-function rotacion3DY(mat,angulo)
-  result = {
-    (math.cos(angulo)*mat[1]+math.sin(angulo)*mat[3]),
-    (1*mat[2]),
-    ((-math.sin(angulo)*mat[1])+math.cos(angulo)*mat[3])
-  }
-  print (result[1] .." ," .. result[2] .. " ,".. result[3]  )
-end
+local minutero= display.newLine( origenx, origeny, 500, 505 )
 
-function rotacion3DZ(mat,angulo)
-  result = {
-    (math.cos(angulo)*mat[1]+(-math.sin(angulo)*mat[2])),
-    (math.sin(angulo)*mat[1]+math.cos(angulo)*mat[2]),
-    (1*mat[3])
-  }
-  print (result[1] .. " ," .. result[2] .. " ,".. result[3]  )
-end
+local horero= display.newLine( origenx, origeny, 695, 195 )
 
-function traslacion(mat,distancia)
-    mat_con_distancia = {
-      {1,0,0,distancia[1]},
-      {0,1,0,distancia[2]},
-      {0,0,1,distancia[3]},
-      {0,0,0,1}
-    }
-    mat_a_multiplicar = {mat[1],mat[2],mat[3],1}
-    result = {
-      mat_con_distancia[1][1]*mat_a_multiplicar[1]+mat_con_distancia[1][4]*mat_a_multiplicar[4],
-      mat_con_distancia[2][2]*mat_a_multiplicar[2]+mat_con_distancia[2][4]*mat_a_multiplicar[4],
-      mat_con_distancia[3][3]*mat_a_multiplicar[3]+mat_con_distancia[3][4]*mat_a_multiplicar[4],
-      mat_con_distancia[4][4]*mat_a_multiplicar[4]
-    }
-    print (result[1])
-    print ( result[2])
-    print (result[3])
-    print ( result[4])
+local centro=display.newCircle( origenx, origeny, 20 )
+centro:setFillColor( 0.8)
+centro.strokeWidth = 2
+centro:setStrokeColor( 1, 0, 0 )
 
-end
+local bird= display.newImage( "bird.png", 512,20 )
+bird:scale(0.05,0.05)
 
-function escalamiento (Mat,fac)
-    -- creacion matriz de escala
-    ancho =table.getn(Mat[1])
-    alto = table.getn(Mat)
 
-    mt = {}
-    for i=1,ancho do
-      mt[i] = {}
-      for j=1,alto do
-        if i == j then
-          mt[i][j] = fac
-        elseif i == ancho and j== alto then
-          mt[i][j] = 1
-        else
-          mt[i][j] = 0
-        end
-        --print(i,j)
-        --print (mt[i][j])
-      end
-    end
+local pendulo = display.newImage( "earth.png", 380,770 )
+pendulo:scale( 0.05, 0.05 )
 
-    res = {}
-    for i=1,ancho do
-      res[i] = {}
-      for j=1,alto do
-        res[i][j]= (Mat[i][1]*mt[1][j] )+ (Mat[i][2]*mt[2][j])+(Mat[i][3]*mt[3][j])
-         print(i,j)
-         print (res[i][j])
-      end
-    end
-
-    return res
-end
-
-matrix = {{1,2,3},{4,5,6},{7,8,9}}
-factor_de_escala= 2
---escalamiento(matrix,factor_de_escala)
---rotacion(2,3)
-
-matriz= {1,2,3}
---rotacion3DX(matriz,20)
---rotacion3DY(matriz,30)
---rotacion3DZ(matriz,40)
-
-matrizTraslacion = {1,2,3}
-distancia_traslacion= {2,5,3}
---traslacion(matrizTraslacion,distancia_traslacion)
+local hora= display.newText( "12" .. ":" ..  "35", 170, 900, native.systemFont, 130 )
+hora:setTextColor(1,1,1)

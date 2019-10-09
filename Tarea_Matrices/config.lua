@@ -7,8 +7,8 @@ application =
 {
 	content =
 	{
-		width = 320,
-		height = 480, 
+		width = 1024,
+		height = 1024, 
 		scale = "letterbox",
 		fps = 60,
 		
