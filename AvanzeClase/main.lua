@@ -8,5 +8,8 @@
 
 --require "eventos"
 
-eventos = require 'eventos'
+--eventos = require 'eventos'
+
+widget = require 'widgets'
+
 

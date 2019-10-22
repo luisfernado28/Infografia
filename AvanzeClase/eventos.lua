@@ -7,6 +7,11 @@ poligon.xScale=3
 poligon.yScale=3
 
 poligon:translate(20,20)
+
+function moverEnY( timeY )
+	transition.to(poligon, {tome = timeY, y= math.random(0,display.contentHeight)})
+end
+
 function poligon:touch( event )
 	if event.phase == "began" then
 		print("coordenada Began en x =" .. event.x)
@@ -16,7 +21,9 @@ function poligon:touch( event )
 		print("coordenada moved en y =" .. event.y)
 	elseif event.phase =="ended" or event.phase == "cancelled" then
 		self:setFillColor(math.random(0,255)/255, math.random(0,255)/255,  math.random(0,255)/255)
-		self:translate(math.random(-20,50), math.random(-20,50))
+		--self:translate(math.random(-20,50), math.random(-20,50))
+		transition.to(poligon, {x= math.random(0,display.contentWidth), 
+		time = 1000, onComplete = moverEnY(3000)})
 	end
 end
 
