@@ -33,18 +33,13 @@ function scene:create( event )
 	-- e.g. add display objects to 'sceneGroup', add touch listeners, etc.
 
 	-- display a background image
-<<<<<<< HEAD
 	local background = display.newImageRect( "fondoInicial.jpg", display.actualContentWidth, display.actualContentHeight )
-=======
-	local background = display.newImageRect( "background.jpg", display.actualContentWidth, display.actualContentHeight )
->>>>>>> e45c464f2188ddbc3325e8b0224c8bf776fbedff
 	background.anchorX = 0
 	background.anchorY = 0
 	background.x = 0 + display.screenOriginX 
 	background.y = 0 + display.screenOriginY
 	
 	-- create/position logo/title image on upper-half of the screen
-<<<<<<< HEAD
 	local titleLogo = display.newText( "Pong", 264, 42 ,native.systemFontBold,80)
 	titleLogo.x = display.contentCenterX
 	titleLogo.y = 100
@@ -55,12 +50,6 @@ function scene:create( event )
 	singnature.x = display.actualContentWidth-80
 	singnature.y = display.actualContentHeight-30
 
-=======
-	local titleLogo = display.newImageRect( "logo.png", 264, 42 )
-	titleLogo.x = display.contentCenterX
-	titleLogo.y = 100
-	
->>>>>>> e45c464f2188ddbc3325e8b0224c8bf776fbedff
 	-- create a widget button (which will loads level1.lua on release)
 	playBtn = widget.newButton{
 		label="Play Now",
@@ -68,6 +57,7 @@ function scene:create( event )
 		default="button.png",
 		over="button-over.png",
 		width=154, height=40,
+		fontSize = 50,
 		onRelease = onPlayBtnRelease	-- event listener function
 	}
 	playBtn.x = display.contentCenterX
@@ -76,10 +66,7 @@ function scene:create( event )
 	-- all display objects must be inserted into group
 	sceneGroup:insert( background )
 	sceneGroup:insert( titleLogo )
-<<<<<<< HEAD
 	sceneGroup:insert( singnature )
-=======
->>>>>>> e45c464f2188ddbc3325e8b0224c8bf776fbedff
 	sceneGroup:insert( playBtn )
 end
 

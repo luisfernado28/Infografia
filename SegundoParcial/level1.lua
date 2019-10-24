@@ -9,7 +9,8 @@ local scene = composer.newScene()
 
 -- include Corona's "physics" library
 local physics = require "physics"
-
+local ball,player1,player2,Tscore1,Tscore2 
+local score1,score2=0,0
 --------------------------------------------
 
 -- forward declarations and other locals
@@ -37,11 +38,12 @@ function scene:create( event )
 	local background = display.newRect( display.screenOriginX, display.screenOriginY, screenW, screenH )
 	background.anchorX = 0 
 	background.anchorY = 0
-<<<<<<< HEAD
 	background:setFillColor( .8 )
-=======
-	background:setFillColor( .5 )
->>>>>>> e45c464f2188ddbc3325e8b0224c8bf776fbedff
+	
+	Tscore1 = display.newText( 0, 250, 100 ,native.systemFontBold,40)
+	
+	 Tscore2 = display.newText( 0, 350, 100 ,native.systemFontBold,40)
+	
 	
 	-- make a crate (off-screen), position it, and rotate slightly
 	local crate = display.newImageRect( "crate.png", 90, 90 )
@@ -51,7 +53,6 @@ function scene:create( event )
 	-- add physics to the crate
 	physics.addBody( crate, { density=1.0, friction=0.3, bounce=0.3 } )
 	
-<<<<<<< HEAD
 	
 	-- create a grass object and add physics (with custom shape)
 	local bottomMargin = display.newImageRect( "grass.png", screenW, 40 )
@@ -90,7 +91,7 @@ function scene:create( event )
 	
 
 	--Ball
-	local ball = display.newImageRect( "Ball.png", 20, 20 )
+	ball = display.newImageRect( "Ball.png", 20, 20 )
 	ball.anchorX = 0
 	ball.anchorY = 1
 	ball.x, ball.y =300, 400
@@ -100,7 +101,8 @@ function scene:create( event )
 
 
 	--Player 1
-	local player1 = display.newImageRect( "Barra.png", 100, 250 )
+	player1 = display.newImageRect( "Barra.png", 100, 250 )
+	player1.name="player1"
 	player1.anchorX = 0
 	player1.anchorY = 1
 	player1.x, player1.y =500, 300
@@ -109,7 +111,8 @@ function scene:create( event )
 	physics.addBody(player1, "static", { friction=0.3, shape=marginShape} )
 
 	--Player 2
-	local player2 = display.newImageRect( "Barra.png", 100, 250 )
+	 player2 = display.newImageRect( "Barra.png", 100, 250 )
+	player2.name="player2"
 	player2.anchorX = 0
 	player2.anchorY = 1
 	player2.x, player2.y =0, 500
@@ -120,31 +123,22 @@ function scene:create( event )
 
 	-- all display objects must be inserted into group
 	sceneGroup:insert( background )
+	sceneGroup:insert( Tscore1)
+	sceneGroup:insert( Tscore2 )
 	sceneGroup:insert( bottomMargin)
 	sceneGroup:insert( topMargin)
 	sceneGroup:insert( player1)
 	sceneGroup:insert( player2)
 	sceneGroup:insert( ball)
 	--sceneGroup:insert( rightMarginT)
-=======
-	-- create a grass object and add physics (with custom shape)
-	local grass = display.newImageRect( "grass.png", screenW, 82 )
-	grass.anchorX = 0
-	grass.anchorY = 1
-	--  draw the grass at the very bottom of the screen
-	grass.x, grass.y = display.screenOriginX, display.actualContentHeight + display.screenOriginY
-	
-	-- define a shape that's slightly shorter than image bounds (set draw mode to "hybrid" or "debug" to see)
-	local grassShape = { -halfW,-34, halfW,-34, halfW,34, -halfW,34 }
-	physics.addBody( grass, "static", { friction=0.3, shape=grassShape } )
-	
-	-- all display objects must be inserted into group
-	sceneGroup:insert( background )
-	sceneGroup:insert( grass)
->>>>>>> e45c464f2188ddbc3325e8b0224c8bf776fbedff
 	sceneGroup:insert( crate )
 end
 
+
+
+function start()
+	ball:applyLinearImpulse( 1, 8, ball.x, ball.y )
+end
 
 function scene:show( event )
 	local sceneGroup = self.view
@@ -158,12 +152,83 @@ function scene:show( event )
 		-- INSERT code here to make the scene come alive
 		-- e.g. start timers, begin animation, play audio, etc.
 		physics.start()
-<<<<<<< HEAD
+		physics.setGravity(0,0)
 		physics.setDrawMode("hybrid")
-=======
->>>>>>> e45c464f2188ddbc3325e8b0224c8bf776fbedff
+
+
+		start()
+
+		function moverPlayer1( newy)
+			player1.y = newy
+		end
+
+		function moverPlayer2( newy)
+			player2.y = newy
+		end
+
+		function sceneGroup:touch( event )
+			local phase = event.phase
+			if phase == "began" then
+				--print ("barra tocada")
+			elseif phase == "moved" then
+				--print(event.y .. "   ,   ".. player1.y)
+				if(event.x>300) then
+					moverPlayer1(event.y)
+				else 
+					moverPlayer2(event.y)
+				end
+			elseif phase == "ended" or phase == "cancelled" then
+				--print ("end m8")
+			end
+		end
+
+
+		function choque( self, event )
+			local phase = event.phase
+		--	print("collision can jump state", crate.canJump)
+
+			if phase == "began" then
+		--		print("Yo " .. self.name  ..  " Te estas chocando con " .. event.other.name )
+			elseif phase == "ended" then
+				if event.other.name == "player1" then
+		--			event.other.bodyType = "dynamic"
+					print('toco player1')
+					ball:applyLinearImpulse( -1, 2, ball.x, ball.y )
+
+				end
+--				timer.performWithDelay( 1000, cambiarCuerpoFisico,1 )
+				if event.other.name == "player2" then
+					print('toco player2')	
+					ball:applyLinearImpulse( 1, 3, ball.x, ball.y )
+
+		--			crate.canJump = true	--habilita al objeto a saltar
+				end
+		--		event.other:setFillColor( math.random(0,255)/255, math.random(0,255)/255,math.random(0,255)/255  )
+			end
+		end
+
+		function respawn( )
+			if(ball.x>600)then
+				score1 =score1 +1
+				Tscore1.text=score1
+				ball.x=300
+			elseif (ball.x<0)then
+				score2 = score2+1
+				Tscore2.text=score2
+				ball.x=300
+			end
+		end
+
+		ball.collision=choque
+		ball:addEventListener( "collision", ball )
+
+		Runtime:addEventListener( "enterFrame", respawn  )
+		sceneGroup:addEventListener( "touch", sceneGroup)
 	end
+
+
 end
+
 
 function scene:hide( event )
 	local sceneGroup = self.view
@@ -178,6 +243,8 @@ function scene:hide( event )
 		physics.stop()
 	elseif phase == "did" then
 		-- Called when the scene is now off screen
+
+	
 	end	
 	
 end
